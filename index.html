@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Compensação Vegetal na Escolha de Sítios Aeroportuários</title>
+    <meta
+      name="description"
+      content="Proposta de critério quantitativo de compensação vegetal requerida para aprimorar a metodologia MESA de seleção de sítios aeroportuários."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="Navegação principal">
+      <a class="brand" href="#inicio">CVR Aeroportos</a>
+      <nav>
+        <a href="#base">Base</a>
+        <a href="#metrica">Métrica</a>
+        <a href="#variaveis">Variáveis</a>
+        <a href="#classificacao">Classificação</a>
+        <a href="#exemplo">Exemplo</a>
+        <a href="#fontes">Fontes</a>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero-image"
+          src="assets/airport-vegetation-planning.png"
+          alt="Visualização aérea de um sítio aeroportuário com fragmentos de vegetação, hidrografia e áreas de restauração delimitadas por camadas de planejamento ambiental."
+        />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-copy">
+            <p class="eyebrow">Melhoria proposta para a metodologia MESA</p>
+            <h1 id="hero-title">Compensação Vegetal Requerida</h1>
+            <p>
+              Um critério quantitativo para comparar sítios aeroportuários pelo
+              passivo ecológico gerado pela supressão de vegetação nativa.
+            </p>
+          </div>
+
+          <section class="calculator" aria-labelledby="calculator-title">
+            <div class="calculator-head">
+              <div>
+                <p class="eyebrow">Simulador</p>
+                <h2 id="calculator-title">Calcule o CVR</h2>
+              </div>
+              <button class="icon-button" type="button" id="resetButton" aria-label="Restaurar valores iniciais">
+                ↻
+              </button>
+            </div>
+
+            <form id="cvrForm">
+              <div class="calc-section">
+                <div class="subarea-head">
+                  <div>
+                    <span class="mini-label">Trechos de supressão</span>
+                    <p>Divida a área por polígonos com estágio e prioridade próprios.</p>
+                  </div>
+                  <button class="secondary-button" type="button" id="addSegmentButton">+ Trecho</button>
+                </div>
+                <div id="segmentsList" class="segments-list" aria-label="Trechos de vegetação suprimida"></div>
+              </div>
+
+              <div class="grid-two">
+                <label>
+                  Árvores isoladas
+                  <span class="input-row">
+                    <input id="treesInput" name="trees" type="number" min="0" step="1" value="40" />
+                    <span>un.</span>
+                  </span>
+                </label>
+
+                <label>
+                  Árvores ameaçadas
+                  <span class="input-row">
+                    <input id="threatenedInput" name="threatened" type="number" min="0" step="1" value="0" />
+                    <span>un.</span>
+                  </span>
+                </label>
+              </div>
+
+              <label>
+                Cobertura vegetal nativa do município
+                <select id="coverageSelect" name="coverage">
+                  <option value="le5">≤ 5%</option>
+                  <option value="between" selected>Entre 5% e 20%</option>
+                  <option value="ge20">≥ 20%</option>
+                </select>
+              </label>
+            </form>
+
+            <div class="result" aria-live="polite">
+              <div>
+                <span class="result-label">CVR total</span>
+                <strong id="totalCvr">0,00 ha</strong>
+              </div>
+              <div class="result-details">
+                <span id="areaCvr">Vegetação: 0,00 ha</span>
+                <span id="treeCvr">Árvores: 0,00 ha</span>
+                <span id="segmentCount">0 trechos</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section thesis" aria-labelledby="tese-title">
+        <div class="section-inner split">
+          <div>
+            <p class="eyebrow">Tese</p>
+            <h2 id="tese-title">Da restrição ambiental ao passivo mensurável</h2>
+          </div>
+          <p>
+            A MESA já considera salvaguardas ambientais, mas pode evoluir ao
+            estimar, para cada alternativa, a área de restauração exigida pela
+            supressão vegetal. Assim, dois sítios legalmente possíveis deixam de
+            parecer equivalentes quando um deles exige compensação muito maior.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="base" aria-labelledby="mesa-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Base no artigo</p>
+            <h2 id="mesa-title">Como a MESA trata o ambiente</h2>
+          </div>
+
+          <div class="article-grid">
+            <article>
+              <h3>Levantamento de critérios</h3>
+              <p>
+                O artigo identifica critérios ambientais na literatura, incluindo
+                impactos sobre o ambiente e áreas protegidas, como unidades de
+                conservação, patrimônio cultural e áreas ambientalmente sensíveis.
+              </p>
+            </article>
+            <article>
+              <h3>Fase eliminatória</h3>
+              <p>
+                Na triagem inicial, o critério ENV remove áreas incompatíveis:
+                conservação, APPs/zonas de proteção permanente, patrimônio
+                cultural e outras áreas que a legislação ou a análise técnica
+                indiquem como restritivas.
+              </p>
+            </article>
+            <article>
+              <h3>Lacuna para a melhoria</h3>
+              <p>
+                Depois que uma área passa pela triagem ambiental, a pontuação
+                final usa critérios como acesso, distância, utilidades, ruído,
+                terraplenagem e geologia. A supressão vegetal remanescente não
+                aparece como quantidade direta ponderada.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="metrica" aria-labelledby="metrica-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Métrica proposta</p>
+            <h2 id="metrica-title">CVR = Compensação Vegetal Requerida</h2>
+          </div>
+
+          <div class="formula-band">
+            <code>
+              CVR_total = Σᵢ(áreaᵢ × fator_estágio,prioridadeᵢ) + Σ(árvores × fator_mudas ÷ 1000)
+            </code>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card">
+              <h3>Subáreas homogêneas</h3>
+              <p>
+                O footprint é dividido em polígonos com mesmo estágio sucessional
+                e mesma prioridade ambiental. Cada polígono entra na soma.
+              </p>
+            </article>
+            <article class="metric-card">
+              <h3>Árvores isoladas</h3>
+              <p>
+                A compensação em mudas é convertida em hectares equivalentes
+                pela referência de 1.000 árvores por hectare.
+              </p>
+            </article>
+            <article class="metric-card">
+              <h3>Nota na matriz</h3>
+              <p>
+                Quanto menor o CVR, maior a nota ambiental do sítio. O indicador
+                pode ser normalizado de 0 a 10.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface" id="variaveis" aria-labelledby="variaveis-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Variáveis</p>
+            <h2 id="variaveis-title">Fatores usados no cálculo</h2>
+          </div>
+
+          <div class="tables">
+            <div class="table-wrap">
+              <h3>Vegetação nativa</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Estágio</th>
+                    <th>Baixa</th>
+                    <th>Média</th>
+                    <th>Alta</th>
+                    <th>Muito alta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Inicial</td>
+                    <td>1,25×</td>
+                    <td>1,5×</td>
+                    <td>1,8×</td>
+                    <td>2×</td>
+                  </tr>
+                  <tr>
+                    <td>Médio</td>
+                    <td>1,5×</td>
+                    <td>2×</td>
+                    <td>2,5×</td>
+                    <td>3×</td>
+                  </tr>
+                  <tr>
+                    <td>Primária ou avançada</td>
+                    <td>2×</td>
+                    <td>3×</td>
+                    <td>5×</td>
+                    <td>6×</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-wrap">
+              <h3>Árvores nativas isoladas</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cobertura nativa municipal</th>
+                    <th>Compensação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>≤ 5%</td>
+                    <td>25 mudas por árvore</td>
+                  </tr>
+                  <tr>
+                    <td>Entre 5% e 20%</td>
+                    <td>15 mudas por árvore</td>
+                  </tr>
+                  <tr>
+                    <td>≥ 20%</td>
+                    <td>10 mudas por árvore</td>
+                  </tr>
+                  <tr>
+                    <td>Espécie ameaçada</td>
+                    <td>30 mudas por árvore</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="classificacao" aria-labelledby="classificacao-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Classificação</p>
+            <h2 id="classificacao-title">O que significam estágio e prioridade</h2>
+          </div>
+
+          <div class="definition-grid">
+            <article>
+              <h3>Estágio inicial</h3>
+              <p>
+                Vegetação secundária em regeneração recente, normalmente com
+                menor porte, estrutura simples, menor diversidade e forte sinal
+                de perturbação anterior.
+              </p>
+            </article>
+            <article>
+              <h3>Estágio médio</h3>
+              <p>
+                Regeneração intermediária, com estratificação mais clara,
+                aumento de espécies nativas, maior cobertura arbórea e melhor
+                continuidade ecológica.
+              </p>
+            </article>
+            <article>
+              <h3>Estágio avançado ou primário</h3>
+              <p>
+                Vegetação madura ou muito conservada, com estrutura complexa,
+                maior diversidade, dossel mais definido e maior valor ecológico
+                para fauna, solo, água e conectividade.
+              </p>
+            </article>
+            <article>
+              <h3>Prioridade baixa a muito alta</h3>
+              <p>
+                Classe do mapa de áreas prioritárias para restauração. Ela indica
+                onde a restauração tem maior relevância ambiental, considerando
+                água, biodiversidade, carbono e déficit de vegetação.
+              </p>
+            </article>
+          </div>
+
+          <div class="note">
+            Em um projeto real, essa classificação não deve ser arbitrária: o
+            estágio vem de inventário ou laudo técnico de vegetação, e a
+            prioridade vem do mapa oficial adotado no licenciamento. O simulador
+            apenas transforma essas classes em hectares equivalentes de
+            compensação.
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="exemplo" aria-labelledby="exemplo-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Aplicação na MESA</p>
+            <h2 id="exemplo-title">Comparação entre sítios candidatos</h2>
+          </div>
+
+          <div class="comparison">
+            <article>
+              <span class="rank">1</span>
+              <h3>Sítio C</h3>
+              <p>0,8 ha avançado em prioridade muito alta + 2 árvores ameaçadas.</p>
+              <strong>4,86 ha equivalentes</strong>
+            </article>
+            <article>
+              <span class="rank">2</span>
+              <h3>Sítio A</h3>
+              <p>6 ha em estágio inicial e prioridade média + 20 árvores isoladas.</p>
+              <strong>9,20 ha equivalentes</strong>
+            </article>
+            <article>
+              <span class="rank">3</span>
+              <h3>Sítio B</h3>
+              <p>2 ha avançado em alta prioridade + 30 árvores + intervenção adicional em APP.</p>
+              <strong>11,25 ha equivalentes</strong>
+            </article>
+          </div>
+
+          <div class="note">
+            O exemplo mostra que a menor área suprimida nem sempre basta para
+            definir o impacto. A qualidade ecológica, a prioridade ambiental e
+            a compensação legal também alteram o ranking.
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface" aria-labelledby="dados-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Dados de entrada</p>
+            <h2 id="dados-title">Bases que sustentam o indicador</h2>
+          </div>
+
+          <div class="data-list">
+            <div>
+              <h3>Geometria do projeto</h3>
+              <p>pista, pátio, terminal, cercamento, drenagem e acessos.</p>
+            </div>
+            <div>
+              <h3>Cobertura vegetal</h3>
+              <p>MapBiomas, Inventário Florestal, DataGEO e imagens Sentinel/Landsat.</p>
+            </div>
+            <div>
+              <h3>Qualidade ecológica</h3>
+              <p>estágio sucessional, espécies ameaçadas, APPs e conectividade.</p>
+            </div>
+            <div>
+              <h3>Regra de compensação</h3>
+              <p>fatores legais de restauração e conversão de mudas para hectares.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="fontes" aria-labelledby="fontes-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Referências</p>
+            <h2 id="fontes-title">Fontes para defender a proposta</h2>
+          </div>
+
+          <ul class="sources">
+            <li>
+              <a href="https://www.sciencedirect.com/science/article/pii/S0969699720304725" target="_blank" rel="noreferrer">
+                Artigo original da metodologia MESA
+              </a>
+            </li>
+            <li>
+              <a href="https://semil.sp.gov.br/2024/01/semil-atualiza-criterios-para-compensacao-ambiental/" target="_blank" rel="noreferrer">
+                SEMIL: critérios de compensação ambiental
+              </a>
+            </li>
+            <li>
+              <a href="https://smastr16.blob.core.windows.net/legislacao/sites/5/2024/04/RESOLUCAO-SEMIL-002-2024-PAGINAS-30.31.32.33.34.pdf" target="_blank" rel="noreferrer">
+                Resolução SEMIL nº 02/2024
+              </a>
+            </li>
+            <li>
+              <a href="https://brasil.mapbiomas.org/metodo_cobertura_e_uso/" target="_blank" rel="noreferrer">
+                MapBiomas: cobertura e uso da terra
+              </a>
+            </li>
+            <li>
+              <a href="https://cetesb.sp.gov.br/licenciamentoambiental/licenca-previa-documentacao-nescessaria/autorizacao-para-supressao-de-vegetacao-nativa-intervencao-em-areas-de-preservacao-permanente-aspectos-correlacionados-ao-licenciamento/" target="_blank" rel="noreferrer">
+                CETESB: autorização para supressão de vegetação nativa
+              </a>
+            </li>
+            <li>
+              <a href="https://conama.mma.gov.br/?id=135&option=com_sisconama&task=arquivo.download" target="_blank" rel="noreferrer">
+                CONAMA nº 10/1993: parâmetros para estágios de regeneração
+              </a>
+            </li>
+            <li>
+              <a href="https://www.cptm.sp.gov.br/cptm/esg-consciente/meio-ambiente/principais-acoes" target="_blank" rel="noreferrer">
+                CPTM: ações ambientais e compensação em obras de transporte
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Proposta acadêmica para IT-200: transformar a supressão vegetal em
+        indicador objetivo de comparação entre alternativas aeroportuárias.
+      </p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
